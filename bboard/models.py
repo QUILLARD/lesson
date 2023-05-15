@@ -1,5 +1,30 @@
 from django.contrib.auth.models import User
+from django.core import validators
+from django.core.exceptions import ValidationError
 from django.db import models
+
+
+def get_min_length():
+    min_length = 3
+    return min_length
+
+
+def validate_even(val):
+    if val % 2 != 0:
+        raise ValidationError('Число %(value)s нечётное', code='odd', params={'value': val})
+
+
+class MinMaxValidator:
+    def __init__(self, min_value, max_value):
+        self.min_value = min_value
+        self.max_value = max_value
+
+    def __call__(self, val):
+        if val < self.min_value or val > self.max_value:
+            raise ValidationError('Введённое число должно быть > %(min)s и < %(max)s',
+                                  code='out_of_range',
+                                  params={'min': self.min_value,
+                                          'max': self.max_value})
 
 
 class AdvUser(models.Model):
@@ -70,6 +95,8 @@ class Bb(models.Model):
     title = models.CharField(
         max_length=50,
         verbose_name="Товар",
+        validators=[validators.MinLengthValidator(get_min_length)],
+        error_messages={'min_length': 'Слишком мало символов'},
     )
 
     content = models.TextField(
@@ -82,6 +109,7 @@ class Bb(models.Model):
         null=True,
         blank=True,
         verbose_name="Цена",
+        validators=[validate_even, MinMaxValidator(2, 5)]
     )
 
     published = models.DateTimeField(
