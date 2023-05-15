@@ -8,7 +8,7 @@
     <h2>Рубрика: {{ current_rubric.name }}</h2>
     {% for bb in bbs %}
         <div>
-            <h2>{{ bb.title }}</h2>
+            <h2>{{ bb.title_and_price }}</h2>
             <p>{{ bb.content }}</p>
             <p><a href="{{ bb.rubric.get_absolute_url }}">
                 {{ bb.rubric.name }}</a></p>
