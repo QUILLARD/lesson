@@ -1,0 +1,35 @@
+[
+  {
+    "model": "bboard.bb",
+    "pk": 1,
+    "fields": {
+      "rubric": 1,
+      "title": "Дача",
+      "content": "Лень писать",
+      "price": 500000.0,
+      "published": "2023-05-03T09:42:21.498Z"
+    }
+  },
+  {
+    "model": "bboard.bb",
+    "pk": 2,
+    "fields": {
+      "rubric": 2,
+      "title": "Бобёр ездовой",
+      "content": "Плохо строит плотины",
+      "price": 5555.0,
+      "published": "2023-05-03T09:42:45.588Z"
+    }
+  },
+  {
+    "model": "bboard.bb",
+    "pk": 3,
+    "fields": {
+      "rubric": 1,
+      "title": "Плотина",
+      "content": "Скоро рухнет строил ездовой бобёр",
+      "price": 500.0,
+      "published": "2023-05-03T09:43:33.630Z"
+    }
+  }
+]
