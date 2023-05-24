@@ -1,5 +1,5 @@
 from django.contrib import admin
-from bboard.models import Bb, Rubric
+from bboard.models import Bb, Rubric, IceCream, IceCreamMarket
 
 
 class BbAdmin(admin.ModelAdmin):
@@ -10,3 +10,5 @@ class BbAdmin(admin.ModelAdmin):
 
 admin.site.register(Rubric)
 admin.site.register(Bb, BbAdmin)
+admin.site.register(IceCream)
+admin.site.register(IceCreamMarket)
