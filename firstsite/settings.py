@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'bboard.apps.BboardConfig',
-    'testapp.app.TestappConfig',
+    'testapp.apps.TestappConfig',
 ]
 
 MIDDLEWARE = [
