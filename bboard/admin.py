@@ -10,5 +10,3 @@ class BbAdmin(admin.ModelAdmin):
 
 admin.site.register(Rubric)
 admin.site.register(Bb, BbAdmin)
-admin.site.register(IceCream)
-admin.site.register(IceCreamMarket)
