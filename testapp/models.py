@@ -27,3 +27,24 @@ class Machine(models.Model):
     spares = models.ManyToManyField(
         Spare,
     )
+
+
+class SMS(models.Model):
+    comment = models.CharField(
+        max_length=120,
+        verbose_name='Комментарий'
+    )
+
+    sender = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='sender',
+        verbose_name='Отправитель'
+    )
+
+    receiver = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='receiver',
+        verbose_name='Получатель'
+    )

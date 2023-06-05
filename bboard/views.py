@@ -65,7 +65,7 @@ def index(request):
     return render(request, 'bboard/index.html', context)
 
 
-def by_rubric(request, rubric_id):
+def by_rubric(request, rubric_id, **kwargs):
     bbs = Bb.objects.filter(rubric=rubric_id)
     rubrics = Rubric.objects.all()
     current_rubric = Rubric.objects.get(pk=rubric_id)
@@ -77,5 +77,7 @@ def by_rubric(request, rubric_id):
         'current_rubric': current_rubric,
         'count__': count__,
         'count_bb': count_bb(),
+        'kwargs': kwargs,
     }
+
     return render(request, 'bboard/by_rubric.html', context)

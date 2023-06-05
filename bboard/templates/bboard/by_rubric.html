@@ -5,6 +5,8 @@
 {% endblock %}
 
 {% block content %}
+    {{ kwargs.name }}
+
     <h2>Рубрика: {{ current_rubric.name }}</h2>
     {% for bb in bbs %}
         <div>
@@ -15,4 +17,5 @@
             <p>{{ bb.published|date:"d.m.Y H:i:s" }}</p>
         </div>
     {% endfor %}
+
 {% endblock %}
