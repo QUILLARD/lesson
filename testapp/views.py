@@ -16,5 +16,3 @@ class ReadSms(DetailView):
     model = SMS
     template_name = 'testapp/read.html'
 
-
-
