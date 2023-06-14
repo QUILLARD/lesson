@@ -13,7 +13,7 @@ from bboard.models import Bb, Rubric
 def print_request(request):
     for attr in dir(request):
         value = getattr(request, attr)
-        print(attr,":", value)
+        print(attr, ":", value)
 
 
 def count_bb():
@@ -106,7 +106,7 @@ def index_old(request):
 
 def by_rubric(request, rubric_id, **kwargs):
 
-    print_request(request)
+    # print_request(request)
 
     try:
         rub_id = Rubric.objects.get(pk=rubric_id)
