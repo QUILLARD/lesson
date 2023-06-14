@@ -1,5 +1,5 @@
 from django.db.models import Min, Max, Count, Q, Sum, IntegerField, Avg
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
 from django.template.loader import get_template, render_to_string
 from django.urls import reverse_lazy
@@ -8,6 +8,12 @@ from django.urls import reverse
 
 from bboard.forms import BbForm
 from bboard.models import Bb, Rubric
+
+
+def print_request(request):
+    for attr in dir(request):
+        value = getattr(request, attr)
+        print(attr,":", value)
 
 
 def count_bb():
@@ -39,7 +45,7 @@ def index_resp(request):
     return resp
 
 
-def index_str(request):
+def index(request):
     bbs = Bb.objects.all()
     rubrics = Rubric.objects.all()
     context = {'bbs': bbs,
@@ -50,7 +56,7 @@ def index_str(request):
     return HttpResponse(render_to_string('bboard/index.html', context=context, request=request))
 
 
-def index(request):
+def index_str(request):
     bbs = Bb.objects.all()
     rubrics = Rubric.objects.all()
     text = 'Строка на фронтенд'
@@ -99,11 +105,19 @@ def index_old(request):
 
 
 def by_rubric(request, rubric_id, **kwargs):
+
+    print_request(request)
+
+    try:
+        rub_id = Rubric.objects.get(pk=rubric_id)
+
+    except Rubric.DoesNotExist:
+        return render(request, 'bboard/does_not_exist.html')
+
     bbs = Bb.objects.filter(rubric=rubric_id)
     rubrics = Rubric.objects.all()
     current_rubric = Rubric.objects.get(pk=rubric_id)
     count__ = Rubric.objects.annotate(num_bbs=Count('bb'))
-
     context = {
         'bbs': bbs,
         'rubrics': rubrics,
@@ -112,7 +126,6 @@ def by_rubric(request, rubric_id, **kwargs):
         'count_bb': count_bb(),
         'kwargs': kwargs,
     }
-
     return render(request, 'bboard/by_rubric.html', context)
 
 
@@ -137,6 +150,7 @@ def add_save(request):
 
 def add_and_save(request):
     if request.method == 'POST':
+
         bbf = BbForm(request.POST)
         if bbf.is_valid():
             bbf.save()
@@ -151,3 +165,11 @@ def add_and_save(request):
         bbf = BbForm()
         context = {'form': bbf}
         return render(request, 'bboard/create.html', context)
+
+
+def detail(request, rubric_id):
+    try:
+        bb = Bb.objects.get(pk=rubric_id)
+    except Bb.DoesNotExist:
+        return HttpResponseNotFound('Такого объявления не существует!')
+    return HttpResponse(...)
