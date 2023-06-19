@@ -1,5 +1,7 @@
 {% extends "layout/basic.html" %}
 
+{% load static %}
+
 {% block content %}
 
 <h1>{{ text }}</h1>
@@ -11,8 +13,8 @@
 {% endif %}
 
     {% for bb in bbs %}
-        <div>
-            <h2>{{ bb.title_and_price }}</h2>
+        <div class="bb-frame">
+            <h2> <a href="{% url 'read' bb.pk %}"> {{ bb.title_and_price }} </a> </h2>
             <p>{{ bb.content }}</p>
             <p><a href="{{ bb.rubric.get_absolute_url }}">
                 {{ bb.rubric.name }}</a></p>

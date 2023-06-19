@@ -1,6 +1,7 @@
 from django.db.models import Min, Max, Count, Q, Sum, IntegerField, Avg
-from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotFound
-from django.shortcuts import render
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotFound, StreamingHttpResponse, FileResponse, \
+    JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.template.loader import get_template, render_to_string
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
@@ -13,7 +14,7 @@ from bboard.models import Bb, Rubric
 def print_request(request):
     for attr in dir(request):
         value = getattr(request, attr)
-        print(attr,":", value)
+        print(attr, ":", value)
 
 
 def count_bb():
@@ -53,7 +54,19 @@ def index(request):
     # template = get_template('bboard/index.html')
     # return HttpResponse(template.render(context=context, request=request))
 
+    # data = {'title': 'Мотоцикл', 'content': 'Старый', 'price': 10000.0}
+    # return JsonResponse(data)
+
+    # return redirect('by_rubric', rubric_id=bbf.cleaned_data['rubric'].pk)
+
     return HttpResponse(render_to_string('bboard/index.html', context=context, request=request))
+
+
+# def index(request):
+#     resp_content = ('Здесь будет', ' главная', ' страница', ' сайта')
+#     resp = StreamingHttpResponse(resp_content, content_type='text/plain; charset=utf-8')
+#
+#     return resp
 
 
 def index_str(request):
@@ -75,7 +88,7 @@ def index_old(request):
     # max_price = Bb.objects.aggregate(mp=Max('price'))
     result = Bb.objects.aggregate(min_price=Min('price'),
                                   max_price=Max('price'),
-                                  diff_price=Max('price') - Min('price'),)
+                                  diff_price=Max('price') - Min('price'), )
     count__ = Rubric.objects.annotate(num_bbs=Count('bb'))
 
     # for r in Rubric.objects.annotate(Count('bb')):
@@ -105,9 +118,6 @@ def index_old(request):
 
 
 def by_rubric(request, rubric_id, **kwargs):
-
-    print_request(request)
-
     try:
         rub_id = Rubric.objects.get(pk=rubric_id)
 
@@ -167,9 +177,17 @@ def add_and_save(request):
         return render(request, 'bboard/create.html', context)
 
 
-def detail(request, rubric_id):
-    try:
-        bb = Bb.objects.get(pk=rubric_id)
-    except Bb.DoesNotExist:
-        return HttpResponseNotFound('Такого объявления не существует!')
-    return HttpResponse(...)
+# def detail(request, rubric_id):
+#     try:
+#         bb = Bb.objects.get(pk=rubric_id)
+#     except Bb.DoesNotExist:
+#         return HttpResponseNotFound('Такого объявления не существует!')
+#     return HttpResponse(...)
+
+
+def detail(request, rec_id):
+    bb = get_object_or_404(Bb, pk=rec_id)
+    bbs = get_list_or_404(Bb, rubric=bb.rubric.pk)
+    context = {'bbs': bbs, 'bb': bb}
+    return HttpResponse(render_to_string('bboard/detail.html', context=context, request=request))
+
