@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.template.loader import get_template, render_to_string
 from django.urls import reverse_lazy
+from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
 from django.urls import reverse
 
@@ -139,6 +140,18 @@ def by_rubric(request, rubric_id, **kwargs):
     return render(request, 'bboard/by_rubric.html', context)
 
 
+class BbByRubricView(TemplateView):
+    template_name = 'bboard/by_rubric.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['current_rubric'] = Rubric.objects.get(pk=context['rubric_id'])
+        context['bbs'] = Bb.objects.filter(rubric=context['rubric_id'])
+        context['rubrics'] = Rubric.objects.all()
+
+        return context
+
+
 def add(request):
     bbf = BbForm()
     context = {'form': bbf}
@@ -190,4 +203,3 @@ def detail(request, rec_id):
     bbs = get_list_or_404(Bb, rubric=bb.rubric.pk)
     context = {'bbs': bbs, 'bb': bb}
     return HttpResponse(render_to_string('bboard/detail.html', context=context, request=request))
-
