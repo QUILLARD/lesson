@@ -4,12 +4,61 @@ from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.template.loader import get_template, render_to_string
 from django.urls import reverse_lazy
-from django.views.generic.base import TemplateView
-from django.views.generic.edit import CreateView
+from django.views.generic import TemplateView, CreateView, ListView, DetailView
 from django.urls import reverse
 
 from bboard.forms import BbForm
 from bboard.models import Bb, Rubric
+
+
+class BbCreateView(CreateView):
+    template_name = 'bboard/create.html'
+    form_class = BbForm
+    success_url = reverse_lazy('index')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['rubrics'] = Rubric.objects.all()
+        context['count_bb'] = count_bb()
+        return context
+
+
+class BbView(ListView):
+    template_name = 'bboard/index.html'
+    model = Bb
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['bbs'] = Bb.objects.all()
+        context['rubrics'] = Rubric.objects.all()
+        context['count_bb'] = count_bb()
+
+        return context
+
+
+class BbByRubricView(TemplateView):
+    template_name = 'bboard/by_rubric.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['current_rubric'] = Rubric.objects.get(pk=context['rubric_id'])
+        context['bbs'] = Bb.objects.filter(rubric=context['rubric_id'])
+        context['rubrics'] = Rubric.objects.all()
+        context['count_bb'] = count_bb()
+
+        return context
+
+
+class BbDetailView(TemplateView):
+    template_name = 'bboard/detail.html'
+    model = Bb
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['bb'] = get_object_or_404(Bb, pk=context['rec_id'])
+        context['bbs'] = get_list_or_404(Bb, rubric=context['bb'].rubric_id)
+
+        return context
 
 
 def print_request(request):
@@ -25,42 +74,6 @@ def count_bb():
         result.update({r.pk: r.num_bbs})
 
     return result
-
-
-class BbCreateView(CreateView):
-    template_name = 'bboard/create.html'
-    form_class = BbForm
-    success_url = reverse_lazy('index')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['rubrics'] = Rubric.objects.all()
-        context['count_bb'] = count_bb()
-        return context
-
-
-def index_resp(request):
-    resp = HttpResponse('Здесь будет', content_type='text/plain; charset=utf-8')
-    resp.write(' главная')
-    resp.writelines((' страница', ' сайта'))
-    resp['keywords'] = 'Python, Django'
-    return resp
-
-
-def index(request):
-    bbs = Bb.objects.all()
-    rubrics = Rubric.objects.all()
-    context = {'bbs': bbs,
-               'rubrics': rubrics}
-    # template = get_template('bboard/index.html')
-    # return HttpResponse(template.render(context=context, request=request))
-
-    # data = {'title': 'Мотоцикл', 'content': 'Старый', 'price': 10000.0}
-    # return JsonResponse(data)
-
-    # return redirect('by_rubric', rubric_id=bbf.cleaned_data['rubric'].pk)
-
-    return HttpResponse(render_to_string('bboard/index.html', context=context, request=request))
 
 
 # def index(request):
@@ -118,40 +131,6 @@ def index_old(request):
     return render(request, 'bboard/index.html', context)
 
 
-def by_rubric(request, rubric_id, **kwargs):
-    try:
-        rub_id = Rubric.objects.get(pk=rubric_id)
-
-    except Rubric.DoesNotExist:
-        return render(request, 'bboard/does_not_exist.html')
-
-    bbs = Bb.objects.filter(rubric=rubric_id)
-    rubrics = Rubric.objects.all()
-    current_rubric = Rubric.objects.get(pk=rubric_id)
-    count__ = Rubric.objects.annotate(num_bbs=Count('bb'))
-    context = {
-        'bbs': bbs,
-        'rubrics': rubrics,
-        'current_rubric': current_rubric,
-        'count__': count__,
-        'count_bb': count_bb(),
-        'kwargs': kwargs,
-    }
-    return render(request, 'bboard/by_rubric.html', context)
-
-
-class BbByRubricView(TemplateView):
-    template_name = 'bboard/by_rubric.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['current_rubric'] = Rubric.objects.get(pk=context['rubric_id'])
-        context['bbs'] = Bb.objects.filter(rubric=context['rubric_id'])
-        context['rubrics'] = Rubric.objects.all()
-
-        return context
-
-
 def add(request):
     bbf = BbForm()
     context = {'form': bbf}
@@ -203,3 +182,42 @@ def detail(request, rec_id):
     bbs = get_list_or_404(Bb, rubric=bb.rubric.pk)
     context = {'bbs': bbs, 'bb': bb}
     return HttpResponse(render_to_string('bboard/detail.html', context=context, request=request))
+
+
+def index(request):
+    bbs = Bb.objects.all()
+    rubrics = Rubric.objects.all()
+    context = {'bbs': bbs,
+               'rubrics': rubrics}
+
+    return HttpResponse(render_to_string('bboard/index.html', context=context, request=request))
+
+
+def by_rubric(request, rubric_id, **kwargs):
+    try:
+        rub_id = Rubric.objects.get(pk=rubric_id)
+
+    except Rubric.DoesNotExist:
+        return render(request, 'bboard/does_not_exist.html')
+
+    bbs = Bb.objects.filter(rubric=rubric_id)
+    rubrics = Rubric.objects.all()
+    current_rubric = Rubric.objects.get(pk=rubric_id)
+    count__ = Rubric.objects.annotate(num_bbs=Count('bb'))
+    context = {
+        'bbs': bbs,
+        'rubrics': rubrics,
+        'current_rubric': current_rubric,
+        'count__': count__,
+        'count_bb': count_bb(),
+        'kwargs': kwargs,
+    }
+    return render(request, 'bboard/by_rubric.html', context)
+
+
+def index_resp(request):
+    resp = HttpResponse('Здесь будет', content_type='text/plain; charset=utf-8')
+    resp.write(' главная')
+    resp.writelines((' страница', ' сайта'))
+    resp['keywords'] = 'Python, Django'
+    return resp

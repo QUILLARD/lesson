@@ -1,12 +1,15 @@
 from django.contrib import auth
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.views.generic import TemplateView
+
 from authapp.forms import UserLoginForm
+from django.urls import reverse
 from django.urls import reverse
 
 
 def login(request):
-    title = 'вход'
+    title = 'Вход'
     login_form = UserLoginForm(data=request.POST)
 
     if request.method == 'POST' and login_form.is_valid():
@@ -29,5 +32,4 @@ def login(request):
 
 def logout(request):
     auth.logout(request)
-    from django.urls import reverse
     return HttpResponseRedirect(reverse('index'))
