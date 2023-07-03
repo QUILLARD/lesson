@@ -24,7 +24,3 @@ section {
     border: 1px solid black;
     padding-left: 10px;
 }
-
-.bb-frame:hover {
-    background-color: yellow;
-}
