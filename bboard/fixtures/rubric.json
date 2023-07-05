@@ -1,0 +1,51 @@
+[
+  {
+    "model": "bboard.rubric",
+    "pk": 1,
+    "fields": {
+      "name": "Недвижимость"
+    }
+  },
+  {
+    "model": "bboard.rubric",
+    "pk": 2,
+    "fields": {
+      "name": "Транспорт"
+    }
+  },
+  {
+    "model": "bboard.rubric",
+    "pk": 3,
+    "fields": {
+      "name": "Бытовая техника"
+    }
+  },
+  {
+    "model": "bboard.rubric",
+    "pk": 4,
+    "fields": {
+      "name": "Сельхозтехника"
+    }
+  },
+  {
+    "model": "bboard.rubric",
+    "pk": 5,
+    "fields": {
+      "name": "Мебель"
+    }
+  },
+  {
+    "model": "bboard.rubric",
+    "pk": 6,
+    "fields": {
+      "name": "Сантехника"
+    }
+  },
+  {
+    "model": "bboard.rubric",
+    "pk": 7,
+    "fields": {
+      "name": "Растения"
+    }
+  }
+]

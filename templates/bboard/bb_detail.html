@@ -1,0 +1,23 @@
+{% extends "layout/basic.html" %}
+
+{% block title %} {{ bb.title }} {% endblock title %}
+
+{% block content %}
+    <p>  Рубрика: {{ bb.rubric.name }}</p>
+    <h1> Товар: {{ bb.title }} </h1>
+    <p>  Описание: {{ bb.content }}</p>
+    <p>  Цена: {{ bb.price }} </p>
+
+    <h2>Похожие товары</h2>
+
+    {% for bb in bbs %}
+        <div>
+            <h2>{{ bb.title_and_price }}</h2>
+            <p>{{ bb.content }}</p>
+            <p><a href="{{ bb.rubric.get_absolute_url }}">
+                {{ bb.rubric.name }}</a></p>
+            <p>{{ bb.published|date:"d.m.Y H:i:s" }}</p>
+        </div>
+    {% endfor %}
+
+{% endblock %}
