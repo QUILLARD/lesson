@@ -6,15 +6,8 @@
 
 <h1>{{ text }}</h1>
 
-{% if user.is_authenticated %}
-<h3><a href="{% url 'authapp:logout' %}">Выйти ({{ user.username }})</a></h3>
-{% else %}
-<h3><a href=" {% url 'authapp:login' %}">Войти</a></h3>
-{% endif %}
-
-    {% for bb in bbs %}
+    {% for bb in object_list %}
         <div class="bb-frame">
-            {#<h2> <a href="{% url 'read' bb.pk %}"> {{ bb.title_and_price }} </a> </h2>#}
             <h2> <a href="{% url 'detail' pk=bb.pk %}"> {{ bb.title_and_price }} </a> </h2>
             <p>{{ bb.content }}</p>
             <p><a href="{{ bb.rubric.get_absolute_url }}">
@@ -25,10 +18,5 @@
         </div>
     {% endfor %}
 
-    <p>
-    {% for date in date_list %}
-        {{ date.year }}
-        {% endfor %}
-    </p>
 
 {% endblock %}

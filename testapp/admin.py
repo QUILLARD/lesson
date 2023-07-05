@@ -1,3 +1,11 @@
 from django.contrib import admin
 
-# Register your models here.
+from testapp.models import SMS
+
+
+class SMSAdmin(admin.ModelAdmin):
+    list_display = ['id', 'comment', 'sender', 'receiver']
+    list_display_links = ['id', 'comment']
+
+
+admin.site.register(SMS, SMSAdmin)

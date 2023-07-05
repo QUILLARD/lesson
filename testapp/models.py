@@ -48,3 +48,10 @@ class SMS(models.Model):
         related_name='receiver',
         verbose_name='Получатель'
     )
+
+    def __str__(self):
+        return self.comment
+
+    class Meta:
+        verbose_name = 'SMS'
+        verbose_name_plural = 'SMS'
