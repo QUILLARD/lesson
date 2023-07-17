@@ -5,7 +5,6 @@ from django.views.generic import TemplateView
 
 from authapp.forms import UserLoginForm
 from django.urls import reverse
-from django.urls import reverse
 
 
 def login(request):

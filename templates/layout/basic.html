@@ -9,26 +9,21 @@
     <link rel="stylesheet" href="{% static 'bboard/style.css' %}">
 </head>
 <body>
-
+{% include 'includes/inc_sale.html' %}
 <header>
     <h1>Объявления</h1>
 </header>
 
-<nav>
-    <a href="{% url 'index' %}">Главная</a>
-    <a href="{% url 'add' %}">Добавить</a>
-    {% for rubric in rubrics %}
-        <a href="{{ rubric.get_absolute_url }}">
-            {{ rubric.name }} {% if count_bb %} ({{ count_bb|count_bbs:rubric.pk }}) {% endif %}</a>
+{% include 'includes/inc_main_menu.html' %}
 
-    {% endfor %}
-</nav>
-
-<section>
+{% if user.is_authenticated %}
     {% block content %}
-        Контента нет
+    Контента нет
     {% endblock %}
-</section>
+{% else %}
+    {% include 'includes/user_active.html' %}
+{% endif %}
+
 </body>
 
 </html>

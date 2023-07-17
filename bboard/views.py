@@ -67,6 +67,7 @@ class BbReadView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['bb'] = get_object_or_404(Bb, pk=context['rec_id'])
         context['bbs'] = get_list_or_404(Bb, rubric=context['bb'].rubric_id)
+        context['count_bb'] = count_bb()
 
         return context
 
@@ -78,6 +79,7 @@ class BbDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['rubrics'] = Rubric.objects.all()
         context['bbs'] = get_list_or_404(Bb, rubric=context['bb'].rubric_id)
+        context['count_bb'] = count_bb()
 
         return context
 
@@ -97,6 +99,7 @@ class BbByRubricView(ListView):
         context = super().get_context_data(**kwargs)
         context['rubrics'] = Rubric.objects.all()
         context['current_rubric'] = Rubric.objects.get(pk=self.kwargs['rubric_id'])
+        context['count_bb'] = count_bb()
 
         return context
 
@@ -109,6 +112,7 @@ class BbAddView(FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['rubrics'] = Rubric.objects.all()
+        context['count_bb'] = count_bb()
 
         return context
 
@@ -153,6 +157,7 @@ class BbIndexView(ArchiveIndexView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['rubrics'] = Rubric.objects.all()
+        context['count_bb'] = count_bb()
 
         return context
 

@@ -24,3 +24,22 @@ section {
     border: 1px solid black;
     padding-left: 10px;
 }
+
+.sale-container {
+    background-color: #fcdc38;
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+}
+
+.sale-1 {
+    background-color: white;
+    padding: 8px 3px;
+    font-size: 20px;
+}
+
+.sale-2 {
+    background-color: #fa8c73;
+    padding: 6px;
+    font-size: 26px;
+}

@@ -1,0 +1,15 @@
+{% load static %}
+{% load count_bbs %}
+
+
+
+<nav>
+    <a href="{% url 'index' %}">Главная</a>
+    <a href="{% url 'add' %}">Добавить</a>
+    {% for rubric in rubrics %}
+        <a href="{{ rubric.get_absolute_url }}">
+            {{ rubric.name }}
+            {% if count_bb %} ({{ count_bb|count_bbs:rubric.pk }}) {% endif %}
+        </a>
+    {% endfor %}
+</nav>
