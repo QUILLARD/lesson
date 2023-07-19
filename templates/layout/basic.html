@@ -9,20 +9,26 @@
     <link rel="stylesheet" href="{% static 'bboard/style.css' %}">
 </head>
 <body>
-{% include 'includes/inc_sale.html' %}
+
 <header>
     <h1>Объявления</h1>
 </header>
 
 {% include 'includes/inc_main_menu.html' %}
 
-{% if user.is_authenticated %}
-    {% block content %}
+<section>
+
+{% block content %}
     Контента нет
-    {% endblock %}
-{% else %}
-    {% include 'includes/user_active.html' %}
-{% endif %}
+{% endblock %}
+
+
+
+{% for p in paginator.page_range %}
+    <a href="?=page/{{ p }}">{{ p }}</a>
+    {% endfor %}
+
+</section>
 
 </body>
 

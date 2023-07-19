@@ -4,6 +4,18 @@
 
 {% block content %}
 
+<p>
+    {% if page.has_previous %}
+    <a href="{% url 'page' page.previous_page_number %}">&lt;</a>
+    &nbsp; &nbsp; | &nbsp; &nbsp;
+    {% endif %}
+    Страница: {{ page.number }} из {{ page.paginator.num_pages }}
+    {% if page.has_next %}
+    &nbsp; &nbsp; | &nbsp; &nbsp;
+    <a href="{% url 'page' page.next_page_number %}">&gt;</a>
+    {% endif %}
+</p>
+
 <p>{{ block.super }}</p>
 
 <h1>{{ text }}</h1>

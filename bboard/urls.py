@@ -3,7 +3,7 @@ from django.views.generic import WeekArchiveView
 
 from bboard.models import Bb
 from bboard.views import BbCreateView, BbByRubricView, BbView, BbDetailView, BbAddView, BbEditView, \
-    BbDeleteView, BbIndexView, BbMonthArchiveView, BbReadView, BbRedirectView
+    BbDeleteView, BbIndexView, BbMonthArchiveView, BbReadView, BbRedirectView, index, by_rubric
 
 vals = {'name': 'indexx', 'beaver': 'Бобер'}
 
@@ -11,8 +11,13 @@ vals = {'name': 'indexx', 'beaver': 'Бобер'}
 
 urlpatterns = [
     # path('', BbView.as_view(), name='index'),
-    path('', BbIndexView.as_view(), name='index'),
+    # path('', BbIndexView.as_view(), name='index'),
+    path('', index, name='index'),
+    path('page/<int:page>', index, name='page'),
+    # path('<int:rubric_id>/', BbByRubricView.as_view(), name='by_rubric'),
     path('<int:rubric_id>/', BbByRubricView.as_view(), name='by_rubric'),
+    path('<int:rubric_id>/page/<int:page>/', BbByRubricView.as_view(), name='rubric_page'),
+    # path('<int:rubric_id>/', by_rubric, name='by_rubric'),
     path('read/<int:rec_id>/', BbReadView.as_view(), name='read'),
     path('add/', BbAddView.as_view(), name='add'),
     path('detail/<int:pk>/', BbDetailView.as_view(), name='detail'),

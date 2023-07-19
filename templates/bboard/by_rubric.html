@@ -8,6 +8,17 @@
 
     {{ kwargs.name }}
 
+<p>
+    {% if page_obj.has_previous %}
+    <a href="{% url 'rubric_page' current_rubric.pk page_obj.previous_page_number %}">&lt;</a>
+    &nbsp; &nbsp; | &nbsp; &nbsp;
+    {% endif %}
+    {% if page_obj.has_next %}
+    &nbsp; &nbsp; | &nbsp; &nbsp;
+    <a href="{% url 'rubric_page' current_rubric.pk page_obj.next_page_number %}">&gt;</a>
+    {% endif %}
+</p>
+
     <h2>Рубрика: {{ current_rubric.name }}</h2>
     {% for bb in bbs %}
         <div>

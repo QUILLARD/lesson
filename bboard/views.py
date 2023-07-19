@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Min, Max, Count, Q, Sum, IntegerField, Avg
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotFound, StreamingHttpResponse, FileResponse, \
     JsonResponse
@@ -89,6 +90,7 @@ class BbRedirectView(RedirectView):
 
 
 class BbByRubricView(ListView):
+    paginate_by = 1
     template_name = 'bboard/by_rubric.html'
     context_object_name = 'bbs'
 
@@ -169,3 +171,68 @@ class BbMonthArchiveView(MonthArchiveView):
     context_object_name = 'bbs'
     # template_name = 'bboard/index.html'
 
+
+def index(request):
+    rubrics = Rubric.objects.all()
+    bbs = Bb.objects.all()
+    paginator = Paginator(bbs, 4)
+
+    if 'page' in request.GET:
+        page_num = request.GET['page']
+    else:
+        page_num = 1
+
+    page = paginator.get_page(page_num)
+
+    context = {
+        'rubrics': rubrics,
+        'bbs': page.object_list,
+        'page': page,
+        'count_bb': count_bb(),
+    }
+
+    return HttpResponse(render_to_string('bboard/index.html', context, request))
+
+
+def by_rubric(request, rubric_id):
+    rubrics = Rubric.objects.all()
+    bbs = Bb.objects.filter(rubric=rubric_id)
+    paginator = Paginator(bbs, 1)
+
+    if 'page' in request.GET:
+        page_num = request.GET['page']
+    else:
+        page_num = 1
+
+    page = paginator.get_page(page_num)
+
+    context = {
+        'rubrics': rubrics,
+        'bbs': page.object_list,
+        'page': page,
+        'count_bb': count_bb(),
+    }
+
+    return HttpResponse(render_to_string('bboard/by_rubric.html', context, request))
+
+
+def index(request, page=1):
+    rubrics = Rubric.objects.all()
+    bbs = Bb.objects.all()
+    paginator = Paginator(bbs, 2)
+
+    try:
+        bbs_paginator = paginator.get_page(page)
+
+    except EmptyPage:
+        bbs_paginator = paginator.get_page(paginator.num_pages)
+    except PageNotAnInteger:
+        bbs_paginator = paginator.get_page(1)
+
+    context = {
+        'rubrics': rubrics,
+        'page': page,
+        'bbs': bbs_paginator,
+    }
+
+    return HttpResponse(render_to_string('bboard/index.html', context, request))
