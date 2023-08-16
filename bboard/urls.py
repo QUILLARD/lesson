@@ -11,8 +11,8 @@ vals = {'name': 'indexx', 'beaver': 'Бобер'}
 
 urlpatterns = [
     # path('', BbView.as_view(), name='index'),
-    # path('', BbIndexView.as_view(), name='index'),
-    path('', index, name='index'),
+    path('', BbIndexView.as_view(), name='index'),
+    # path('', index, name='index'),
     path('page/<int:page>', index, name='page'),
     # path('<int:rubric_id>/', BbByRubricView.as_view(), name='by_rubric'),
     path('<int:rubric_id>/', BbByRubricView.as_view(), name='by_rubric'),
