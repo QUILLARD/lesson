@@ -1,5 +1,6 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Min, Max, Count, Q, Sum, IntegerField, Avg
+from django.forms import modelformset_factory, inlineformset_factory
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotFound, StreamingHttpResponse, FileResponse, \
     JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
@@ -22,6 +23,41 @@ def count_bb():
     return result
 
 
+def rubrics(request):
+    RubricFormSet = modelformset_factory(Rubric, fields=('name',), can_delete=True, extra=3)
+
+    if request.method == 'POST':
+        formset = RubricFormSet(request.POST)
+        if formset.is_valid():
+            formset.save()
+
+            return redirect('index')
+    else:
+        formset = RubricFormSet()
+
+    context = {'formset': formset}
+
+    return render(request, 'bboard/rubrics.html', context)
+
+
+def bbs(request, rubric_id):
+    bbsFormSet = inlineformset_factory(Rubric, Bb, form=BbForm, extra=1)
+    rubric = Rubric.objects.get(pk=rubric_id)
+
+    if request.method == 'POST':
+        formset = bbsFormSet(request.POST, instance=rubric)
+        if formset.is_valid():
+            formset.save()
+
+            return redirect('index')
+    else:
+        formset = bbsFormSet(instance=rubric)
+
+    context = {'formset': formset, 'current_rubric': rubric}
+
+    return render(request, 'bboard/bbs.html', context)
+
+
 class BbCreateView(CreateView):
     template_name = 'bboard/create.html'
     form_class = BbForm
@@ -37,6 +73,7 @@ class BbCreateView(CreateView):
 class BbView(ListView):
     template_name = 'bboard/index.html'
     model = Bb
+    paginate_by = 3
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -210,7 +247,6 @@ def by_rubric(request, rubric_id):
         'rubrics': rubrics,
         'bbs': page.object_list,
         'page': page,
-        'count_bb': count_bb(),
     }
 
     return HttpResponse(render_to_string('bboard/by_rubric.html', context, request))

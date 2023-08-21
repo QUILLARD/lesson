@@ -40,11 +40,11 @@ class BbForm(ModelForm):
         return val
 
     def clean(self):
-        cleaned_data = super().clean()
+        super().clean()
         errors = {}
         if not self.cleaned_data['content']:
             errors['content'] = ValidationError('Укажите описание продаваемого товара')
-        if not self.cleaned_data['price'] <= 0:
+        if self.cleaned_data['price'] <= 0:
             errors['price'] = ValidationError('Укажите положительное значение')
 
         if errors:
