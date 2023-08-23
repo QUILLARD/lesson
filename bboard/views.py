@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Min, Max, Count, Q, Sum, IntegerField, Avg
 from django.forms import modelformset_factory, inlineformset_factory
@@ -23,6 +25,9 @@ def count_bb():
     return result
 
 
+# @permission_required(('bboard.view_rubric', 'bboard.change_rubric'))
+# @user_passes_test(lambda user: user.is_staff)
+@login_required
 def rubrics(request):
     RubricFormSet = modelformset_factory(Rubric, fields=('name',), can_delete=True, extra=3)
 
@@ -58,10 +63,17 @@ def bbs(request, rubric_id):
     return render(request, 'bboard/bbs.html', context)
 
 
-class BbCreateView(CreateView):
+# class BbCreateView(LoginRequiredMixin, CreateView):
+class BbCreateView(UserPassesTestMixin, CreateView):
     template_name = 'bboard/create.html'
     form_class = BbForm
     success_url = reverse_lazy('index')
+
+    # Для UserPassesTestMixin
+    def test_func(self):
+        return self.request.user.is_staff
+    # Конец
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
