@@ -26,7 +26,15 @@ class Machine(models.Model):
 
     spares = models.ManyToManyField(
         Spare,
+        through='Kit',
+        through_fields=('machine', 'spare')
     )
+
+
+class Kit(models.Model):
+    machine = models.ForeignKey(Machine, on_delete=models.CASCADE)
+    spare = models.ForeignKey(Spare, on_delete=models.CASCADE)
+    count = models.IntegerField()
 
 
 class SMS(models.Model):
@@ -55,3 +63,19 @@ class SMS(models.Model):
     class Meta:
         verbose_name = 'SMS'
         verbose_name_plural = 'SMS'
+
+
+class Course(models.Model):
+    name = models.CharField(max_length=255)
+
+
+class Student(models.Model):
+    name = models.CharField(max_length=100)
+    courses = models.ManyToManyField(Course, through='Registration', through_fields=('student', 'course'))
+
+
+class Registration(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    date = models.DateTimeField()
+
