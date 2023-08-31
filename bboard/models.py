@@ -4,6 +4,27 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 
+class RubricQuerySet(models.QuerySet):
+    def order_by_bb_count(self):
+        return self.annotate(cnt=models.Count('bb')).order_by('-cnt')
+
+
+class RubricManager(models.Manager):
+    def get_queryset(self):
+        # return super().get_queryset().order_by('name')
+        return RubricQuerySet(self.model, using=self._db)
+
+    def order_by_bb_count(self):
+        # return super().get_queryset().annotate(cnt=models.Count('bb')).order_by('-cnt')
+
+        return self.get_queryset().order_by_bb_count()
+
+
+class BbManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().order_by('price')
+
+
 def get_min_length():
     min_length = 3
     return min_length
@@ -59,6 +80,12 @@ class Rubric(models.Model):
         max_length=20,
         db_index=True,
         verbose_name="Название",)
+
+    objects = RubricManager()
+
+    # objects = RubricQuerySet.as_manager()
+
+    # objects = models.Manager.from_queryset(RubricQuerySet)()
 
     def __str__(self):
         return self.name
@@ -129,6 +156,9 @@ class Bb(models.Model):
         db_index=True,
         verbose_name="Опубликовано",
     )
+
+    objects = models.Manager()
+    by_price = BbManager()
 
     def __str__(self):
         return f'Объявление: {self.title}'
