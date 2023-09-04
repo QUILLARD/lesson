@@ -20,6 +20,11 @@ urlpatterns = [
 
     path("__debug__/", include("debug_toolbar.urls")),
 ]
+
+urlpatterns += [
+    path('captcha/', include('captcha.urls')),
+]
+
 if DEBUG:
     import socket  # only if you haven't already imported this
     hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())

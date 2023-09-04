@@ -3,7 +3,7 @@ from django.views.generic import WeekArchiveView
 
 from bboard.models import Bb
 from bboard.views import BbCreateView, BbByRubricView, BbView, BbDetailView, BbAddView, BbEditView, \
-    BbDeleteView, BbIndexView, BbMonthArchiveView, BbReadView, BbRedirectView, index, by_rubric, rubrics, bbs
+    BbDeleteView, BbIndexView, BbMonthArchiveView, BbReadView, BbRedirectView, index, by_rubric, rubrics, bbs, search
 
 vals = {'name': 'indexx', 'beaver': 'Бобер'}
 
@@ -28,6 +28,7 @@ urlpatterns = [
     path('detail/<int:year>/<int:month>/<int:day>/<int:pk>/', BbRedirectView.as_view(), name='old_detail'),
     path('rubrics/', rubrics, name='rubrics'),
     path('bbs/<int:rubric_id>/', bbs, name='bbs'),
+    path('search/', search, name='search'),
 ]
 
 # urlpatterns = [

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     "debug_toolbar",
+    'captcha',
 
     'bboard.apps.BboardConfig',
     'testapp.apps.TestappConfig',
@@ -145,3 +146,7 @@ LOGOUT_REDIRECT_URL = 'index'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Настройки капчи
+
+CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.math_challenge'

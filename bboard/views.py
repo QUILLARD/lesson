@@ -12,7 +12,7 @@ from django.views.generic import TemplateView, CreateView, ListView, DetailView,
     ArchiveIndexView, MonthArchiveView, RedirectView
 from django.urls import reverse
 
-from bboard.forms import BbForm
+from bboard.forms import BbForm, SearchForm
 from bboard.models import Bb, Rubric
 
 
@@ -288,3 +288,24 @@ def index(request, page=1):
     }
 
     return HttpResponse(render_to_string('bboard/index.html', context, request))
+
+
+def search(request):
+    if request.method == 'POST':
+        sf = SearchForm(request.POST)
+        if sf.is_valid():
+            keyword = sf.cleaned_data['keyword']
+            rubric_id = sf.cleaned_data['rubric'].pk
+            bbs = Bb.objects.filter(title__iregex=keyword, rubric=rubric_id)
+            context = {
+                'bbs': bbs,
+                'form': sf,
+            }
+            return render(request, 'bboard/search_result.html', context)
+    else:
+        sf = SearchForm()
+
+    context = {
+        'form': sf,
+    }
+    return render(request, 'bboard/search.html', context)

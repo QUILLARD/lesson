@@ -1,3 +1,4 @@
+from captcha.fields import CaptchaField
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm, modelform_factory, DecimalField
 from django.forms.widgets import Select
@@ -22,6 +23,7 @@ from bboard.models import Bb, Rubric
 
 
 class BbForm(ModelForm):
+    captcha = CaptchaField(label='Введите текст с картинки', error_messages={'invalid': 'Неверно!'}, generator='captcha.helpers.math_challenge')
     title = forms.CharField(label='Название товара',
                             validators=[validators.RegexValidator(regex='^.{4,}$')],
                             error_messages={'invalid': 'Слишком короткое название товара!'})
@@ -53,3 +55,8 @@ class BbForm(ModelForm):
     class Meta:
         model = Bb
         fields = ('title', 'content', 'price', 'rubric')
+
+
+class SearchForm(forms.Form):
+    keyword = forms.CharField(max_length=20, label='Искомое слово')
+    rubric = forms.ModelChoiceField(queryset=Rubric.objects.all(), label='Рубрика')
