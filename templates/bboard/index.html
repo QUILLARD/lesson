@@ -1,5 +1,5 @@
 {% extends "layout/basic.html" %}
-
+{% load bbcode_tags %}
 {% load static %}
 
 {% block content %}
@@ -24,7 +24,7 @@
         <div class="bb-frame">
             {#<h2> <a href="{% url 'read' bb.pk %}"> {{ bb.title_and_price }} </a> </h2>#}
             <h2> <a href="{% url 'detail' pk=bb.pk %}"> {{ bb.title_and_price }} </a> </h2>
-            <p>{{ bb.content }}</p>
+            <p>{{ bb.content.rendered }}</p>
             <p><a href="{{ bb.rubric.get_absolute_url }}">
                 {{ bb.rubric.name }}</a></p>
             <p>{{ bb.published|date:"d.m.Y H:i:s" }}</p>

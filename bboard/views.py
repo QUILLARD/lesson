@@ -11,6 +11,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView, ListView, DetailView, FormView, UpdateView, DeleteView, \
     ArchiveIndexView, MonthArchiveView, RedirectView
 from django.urls import reverse
+from precise_bbcode.bbcode import get_parser
 
 from bboard.forms import BbForm, SearchForm
 from bboard.models import Bb, Rubric
@@ -124,12 +125,14 @@ class BbReadView(TemplateView):
 
 class BbDetailView(DetailView):
     model = Bb
+    parser = get_parser()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['rubrics'] = Rubric.objects.all()
         context['bbs'] = get_list_or_404(Bb, rubric=context['bb'].rubric_id)
         context['count_bb'] = count_bb()
+        # context['parsed_content'] = self.parser.render(self.object.content)
 
         return context
 
@@ -139,7 +142,7 @@ class BbRedirectView(RedirectView):
 
 
 class BbByRubricView(ListView):
-    paginate_by = 1
+    paginate_by = 3
     template_name = 'bboard/by_rubric.html'
     context_object_name = 'bbs'
 
@@ -268,8 +271,8 @@ def by_rubric(request, rubric_id):
 def index(request, page=1):
     # rubrics = Rubric.objects.order_by_bb_count()
     rubrics = Rubric.objects.order_by_bb_count()
-    # bbs = Bb.objects.all()
-    bbs = Bb.by_price.all()
+    bbs = Bb.objects.all()
+    # bbs = Bb.by_price.all()
     paginator = Paginator(bbs, 2)
 
     try:
@@ -283,7 +286,8 @@ def index(request, page=1):
     context = {
         'rubrics': rubrics,
         'page': page,
-        'bbs': bbs_paginator,
+        'bbs': bbs,
+        # 'bbs': bbs_paginator,
         'count_bb': count_bb(),
     }
 

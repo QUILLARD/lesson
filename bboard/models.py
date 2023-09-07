@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.core import validators
 from django.core.exceptions import ValidationError
 from django.db import models
+from precise_bbcode.fields import BBCodeTextField
 
 
 class RubricQuerySet(models.QuerySet):
@@ -138,7 +139,7 @@ class Bb(models.Model):
         default='s',
     )
 
-    content = models.TextField(
+    content = BBCodeTextField(
         null=True,
         blank=True,
         verbose_name="Описание",

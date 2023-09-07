@@ -1,4 +1,5 @@
 {% extends "layout/basic.html" %}
+{% load bbcode_tags %}
 
 {% block title %} {{ bb.title }} {% endblock title %}
 
@@ -14,6 +15,7 @@
         <div>
             <h2>{{ bb.title_and_price }}</h2>
             <p>{{ bb.content }}</p>
+
             <p><a href="{{ bb.rubric.get_absolute_url }}">
                 {{ bb.rubric.name }}</a></p>
             <p>{{ bb.published|date:"d.m.Y H:i:s" }}</p>
