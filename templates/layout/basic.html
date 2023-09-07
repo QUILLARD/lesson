@@ -1,0 +1,35 @@
+{% load static %}
+{% load count_bbs %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Главная{% endblock %} ::
+        Доска объявлений</title>
+    <link rel="stylesheet" href="{% static 'bboard/style.css' %}">
+</head>
+<body>
+
+<header>
+    <h1>Объявления</h1>
+</header>
+
+{% include 'includes/inc_main_menu.html' %}
+
+<section>
+
+{% block content %}
+    Контента нет
+{% endblock %}
+
+
+
+{% for p in paginator.page_range %}
+    <a href="?=page/{{ p }}">{{ p }}</a>
+    {% endfor %}
+
+</section>
+
+</body>
+
+</html>

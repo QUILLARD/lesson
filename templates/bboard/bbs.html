@@ -1,0 +1,66 @@
+{% extends "layout/basic.html" %}
+
+{% block title %} Редактирование объявлений рубрики {{ current_rubric }} {% endblock %}
+
+{% block content %}
+
+    <h2>Редактирование объявлений рубрики {{ current_rubric }}</h2>
+
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ formset.management_form }}
+
+
+            {% if formset.non_form_errors %}
+                <ul>
+                    {% for error in formset.non_form_errors %}
+                        <li><em>{{ error|escape }}</em></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            {% for form in formset %}
+
+                {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+
+
+                {% if formset.non_field_errors %}
+                    <ul>
+                        {% for error in form.non_field_errors %}
+                            <li><em>{{ error|escape }}</em></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+
+                {% if form.errors %}
+                    <ul>
+                        {% for error in form.errors %}
+                        <li><em>{{ error|escape }}</em></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+
+                {% for field in form.visible_fields %}
+                    {% if field.errors %}
+                        <ul>
+                            {% for error in field.errors %}
+                                <li><em>{{ error|escape }}</em></li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+
+                    <p>{{ field.label_tag }} <br> {{ field }} <br> {{ field.help_text }}</p>
+                {% endfor %}
+
+
+            {% endfor %}
+
+            <input type="submit" value="Сохранить">
+        </form>
+
+{% endblock %}

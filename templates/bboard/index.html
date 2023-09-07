@@ -1,0 +1,43 @@
+{% extends "layout/basic.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<p>
+    {% if page.has_previous %}
+    <a href="{% url 'page' page.previous_page_number %}">&lt;</a>
+    &nbsp; &nbsp; | &nbsp; &nbsp;
+    {% endif %}
+    Страница: {{ page.number }} из {{ page.paginator.num_pages }}
+    {% if page.has_next %}
+    &nbsp; &nbsp; | &nbsp; &nbsp;
+    <a href="{% url 'page' page.next_page_number %}">&gt;</a>
+    {% endif %}
+</p>
+
+<p>{{ block.super }}</p>
+
+<h1>{{ text }}</h1>
+
+    {% for bb in bbs %}
+        <div class="bb-frame">
+            {#<h2> <a href="{% url 'read' bb.pk %}"> {{ bb.title_and_price }} </a> </h2>#}
+            <h2> <a href="{% url 'detail' pk=bb.pk %}"> {{ bb.title_and_price }} </a> </h2>
+            <p>{{ bb.content }}</p>
+            <p><a href="{{ bb.rubric.get_absolute_url }}">
+                {{ bb.rubric.name }}</a></p>
+            <p>{{ bb.published|date:"d.m.Y H:i:s" }}</p>
+            <p><a href="{% url 'update' bb.pk %}"> Редактировать </a>
+            <a href="{% url 'delete' bb.pk %}"> Удалить </a></p>
+        </div>
+    {% endfor %}
+
+
+    <p>
+    {% for date in date_list %}
+        {{ date.year }}
+        {% endfor %}
+    </p>
+
+{% endblock %}
