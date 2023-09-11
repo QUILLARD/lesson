@@ -1126,6 +1126,7 @@
       "rubric": 1,
       "title": "Дача",
       "kind": "s",
+      "_content_rendered": null,
       "content": "Лень писать",
       "price": 500000.0,
       "published": "2023-05-17T11:18:29.159Z"
@@ -1138,6 +1139,7 @@
       "rubric": 2,
       "title": "Бобёр ездовой",
       "kind": "s",
+      "_content_rendered": null,
       "content": "Плохо строит плотины",
       "price": 2777.5,
       "published": "2023-05-17T11:18:29.167Z"
@@ -1150,6 +1152,7 @@
       "rubric": null,
       "title": "Чайник",
       "kind": "s",
+      "_content_rendered": null,
       "content": "описание",
       "price": 250.0,
       "published": "2023-05-22T10:47:36.232Z"
@@ -1162,6 +1165,7 @@
       "rubric": 5,
       "title": "Диван",
       "kind": "s",
+      "_content_rendered": null,
       "content": "Продавленный",
       "price": 100.0,
       "published": "2023-05-24T09:37:05.928Z"
@@ -1174,6 +1178,7 @@
       "rubric": 6,
       "title": "Раковина",
       "kind": "s",
+      "_content_rendered": null,
       "content": "Сильно битая",
       "price": 49.5,
       "published": "2023-05-24T09:40:21.136Z"
@@ -1186,6 +1191,7 @@
       "rubric": 4,
       "title": "Мотыга",
       "kind": "s",
+      "_content_rendered": null,
       "content": "Ржавая",
       "price": 49.5,
       "published": "2023-05-24T09:45:29.244Z"
@@ -1198,6 +1204,7 @@
       "rubric": 4,
       "title": "Лопата",
       "kind": "s",
+      "_content_rendered": null,
       "content": "Почти новая",
       "price": 500.0,
       "published": "2023-05-24T09:49:27.388Z"
@@ -1210,6 +1217,7 @@
       "rubric": 3,
       "title": "Пылесос",
       "kind": "s",
+      "_content_rendered": null,
       "content": "Хороший, мощный",
       "price": 500.0,
       "published": "2023-05-24T11:30:45.683Z"
@@ -1222,6 +1230,7 @@
       "rubric": 3,
       "title": " Стиральная машина",
       "kind": "s",
+      "_content_rendered": null,
       "content": " Автоматическая",
       "price": 500.0,
       "published": "2023-05-24T11:30:45.683Z"
@@ -1234,6 +1243,7 @@
       "rubric": 5,
       "title": "товар",
       "kind": "s",
+      "_content_rendered": null,
       "content": "ыфва",
       "price": 100.0,
       "published": "2023-06-12T09:52:55.427Z"
@@ -1246,6 +1256,7 @@
       "rubric": 1,
       "title": "Прод",
       "kind": "s",
+      "_content_rendered": null,
       "content": "ывфвыф",
       "price": 0.02,
       "published": "2023-08-16T09:55:45.224Z"
@@ -1258,6 +1269,7 @@
       "rubric": 2,
       "title": "asdwedrf",
       "kind": "s",
+      "_content_rendered": null,
       "content": "asdasd",
       "price": 100.0,
       "published": "2023-08-21T11:09:45.170Z"
@@ -1270,6 +1282,7 @@
       "rubric": 2,
       "title": "asdasdasd",
       "kind": "s",
+      "_content_rendered": null,
       "content": "asdasdasd",
       "price": 100.0,
       "published": "2023-08-21T11:18:22.811Z"
@@ -1282,6 +1295,7 @@
       "rubric": 1,
       "title": "домммм",
       "kind": "s",
+      "_content_rendered": null,
       "content": "описание",
       "price": 1000.0,
       "published": "2023-08-31T09:44:31.451Z"
@@ -1294,6 +1308,7 @@
       "rubric": 3,
       "title": "Каптча",
       "kind": "s",
+      "_content_rendered": null,
       "content": "описание",
       "price": 100.0,
       "published": "2023-09-04T10:52:09.524Z"

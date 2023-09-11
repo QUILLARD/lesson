@@ -142,7 +142,7 @@ class BbRedirectView(RedirectView):
 
 
 class BbByRubricView(ListView):
-    paginate_by = 3
+    paginate_by = 2
     template_name = 'bboard/by_rubric.html'
     context_object_name = 'bbs'
 
@@ -286,8 +286,8 @@ def index(request, page=1):
     context = {
         'rubrics': rubrics,
         'page': page,
-        'bbs': bbs,
-        # 'bbs': bbs_paginator,
+        # 'bbs': bbs,
+        'bbs': bbs_paginator,
         'count_bb': count_bb(),
     }
 

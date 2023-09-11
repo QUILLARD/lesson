@@ -1,7 +1,7 @@
 {% extends "layout/basic.html" %}
 {% load bbcode_tags %}
 {% load static %}
-
+{% load bootstrap4 %}
 {% block content %}
 
 <p>
@@ -33,6 +33,7 @@
         </div>
     {% endfor %}
 
+{{ contacts }}
 
     <p>
     {% for date in date_list %}

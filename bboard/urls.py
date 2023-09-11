@@ -3,7 +3,7 @@ from django.views.generic import WeekArchiveView
 
 from bboard.models import Bb
 from bboard.views import BbCreateView, BbByRubricView, BbView, BbDetailView, BbAddView, BbEditView, \
-    BbDeleteView, BbIndexView, BbMonthArchiveView, BbReadView, BbRedirectView, index, by_rubric, rubrics, bbs, search
+    BbDeleteView, BbIndexView, BbMonthArchiveView, BbReadView, BbRedirectView, by_rubric, rubrics, bbs, search, index
 
 vals = {'name': 'indexx', 'beaver': 'Бобер'}
 

@@ -1,66 +1,70 @@
 {% extends "layout/basic.html" %}
-
+{% load bootstrap4 %}
 {% block title %}Редактирование рубрик{% endblock %}
 
 {% block content %}
 
     <h2>Редактирование рубрик</h2>
-
+<div class="col-md-4">
         <form action="" method="post">
             {% csrf_token %}
-            {{ formset.management_form }}
+
+<!--            {{ formset.management_form }}-->
 
 
-            {% if formset.non_form_errors %}
-                <ul>
-                    {% for error in formset.non_form_errors %}
-                        <li><em>{{ error|escape }}</em></li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
+<!--            {% if formset.non_form_errors %}-->
+<!--                <ul>-->
+<!--                    {% for error in formset.non_form_errors %}-->
+<!--                        <li><em>{{ error|escape }}</em></li>-->
+<!--                    {% endfor %}-->
+<!--                </ul>-->
+<!--            {% endif %}-->
 
-            {% for form in formset %}
+<!--            {% for form in formset %}-->
 
-                {% for hidden in form.hidden_fields %}
-                    {{ hidden }}
-                {% endfor %}
-
-
-                {% if formset.non_field_errors %}
-                    <ul>
-                        {% for error in form.non_field_errors %}
-                            <li><em>{{ error|escape }}</em></li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
+<!--                {% for hidden in form.hidden_fields %}-->
+<!--                    {{ hidden }}-->
+<!--                {% endfor %}-->
 
 
-                {% if form.errors %}
-                    <ul>
-                        {% for error in form.errors %}
-                        <li><em>{{ error|escape }}</em></li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
+<!--                {% if formset.non_field_errors %}-->
+<!--                    <ul>-->
+<!--                        {% for error in form.non_field_errors %}-->
+<!--                            <li><em>{{ error|escape }}</em></li>-->
+<!--                        {% endfor %}-->
+<!--                    </ul>-->
+<!--                {% endif %}-->
 
 
-                {% for field in form.visible_fields %}
-                    {% if field.errors %}
-                        <ul>
-                            {% for error in field.errors %}
-                                <li><em>{{ error|escape }}</em></li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
+<!--                {% if form.errors %}-->
+<!--                    <ul>-->
+<!--                        {% for error in form.errors %}-->
+<!--                        <li><em>{{ error|escape }}</em></li>-->
+<!--                        {% endfor %}-->
+<!--                    </ul>-->
+<!--                {% endif %}-->
 
 
-                    <p>{{ field.label_tag }} <br> {{ field }} <br> {{ field.help_text }}</p>
-                {% endfor %}
+<!--                {% for field in form.visible_fields %}-->
+<!--                    {% if field.errors %}-->
+<!--                        <ul>-->
+<!--                            {% for error in field.errors %}-->
+<!--                                <li><em>{{ error|escape }}</em></li>-->
+<!--                            {% endfor %}-->
+<!--                        </ul>-->
+<!--                    {% endif %}-->
 
 
-            {% endfor %}
+<!--                    <p>{{ field.label_tag }} <br> {{ field }} <br> {{ field.help_text }}</p>-->
+<!--                {% endfor %}-->
 
-            <input type="submit" value="Сохранить">
+
+<!--            {% endfor %}-->
+    {% bootstrap_alert content='<p>Рубрики добавлены</p>' alert_type='success' %}
+            {% bootstrap_formset formset  %}
+            {% buttons submit='Сохранить' reset='Отмена' %}{% endbuttons %}
+<!--            <input type="submit" value="Сохранить">-->
+
         </form>
-
+</div>
 {% endblock %}

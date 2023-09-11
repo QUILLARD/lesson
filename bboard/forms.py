@@ -23,6 +23,10 @@ from bboard.models import Bb, Rubric
 
 
 class BbForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['rubric'].empty_label = 'Рубрика не выбрана'
+
     captcha = CaptchaField(label='Введите текст с картинки', error_messages={'invalid': 'Неверно!'}, generator='captcha.helpers.math_challenge')
     title = forms.CharField(label='Название товара',
                             validators=[validators.RegexValidator(regex='^.{4,}$')],
