@@ -34,6 +34,7 @@ class BbForm(ModelForm):
                                     label='Рубрика', help_text='Не забудьте выбрать рубрику!',
                                     widget=forms.widgets.Select(attrs={'size': 5,
                                                                        'class': 'danger'}))
+    archive = forms.FileField(label='Загрузить файл')
 
     def clean_title(self):
         val = self.cleaned_data['title']
@@ -54,7 +55,7 @@ class BbForm(ModelForm):
 
     class Meta:
         model = Bb
-        fields = ('title', 'content', 'price', 'rubric')
+        fields = ('title', 'content', 'price', 'archive', 'rubric')
 
 
 class SearchForm(forms.Form):

@@ -1,3 +1,6 @@
+from datetime import datetime
+from os.path import splitext
+
 from django.contrib.auth.models import User
 from django.core import validators
 from django.core.exceptions import ValidationError
@@ -26,6 +29,10 @@ class BbManager(models.Manager):
         return super().get_queryset().order_by('price')
 
 
+def get_timestamp_path(instance, filename):
+    return '%s%s%s' % (splitext(filename)[0], datetime.now().timestamp(), splitext(filename)[1])
+
+
 def get_min_length():
     min_length = 3
     return min_length
@@ -50,42 +57,23 @@ def validate_even(val):
 
 
 # class AdvUser(models.Model):
-#     is_activated = models.BooleanField(
-#         default=True,
-#     )
-#
-#     user = models.OneToOneField(
-#         User,
-#         on_delete=models.CASCADE
-#     )
+#     is_activated = models.BooleanField(default=True)
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
 
 # class Spare(models.Model):
-#     name = models.CharField(
-#         max_length=30,
-#     )
+#     name = models.CharField(max_length=30)
 
 
 # class Machine(models.Model):
-#     name = models.CharField(
-#         max_length=30,
-#     )
-#
-#     spares = models.ManyToManyField(
-#         Spare,
-#     )
+#     name = models.CharField(max_length=30)
+#     spares = models.ManyToManyField(Spare)
 
 
 class Rubric(models.Model):
-    name = models.CharField(
-        max_length=20,
-        db_index=True,
-        verbose_name="Название",)
-
+    name = models.CharField(max_length=20, db_index=True, verbose_name="Название",)
     objects = RubricManager()
-
     # objects = RubricQuerySet.as_manager()
-
     # objects = models.Manager.from_queryset(RubricQuerySet)()
 
     def __str__(self):
@@ -113,50 +101,14 @@ class Rubric(models.Model):
 
 
 class Bb(models.Model):
-    KINDS = (
-        ('b', 'Куплю'),
-        ('s', 'Продам'),
-        ('c', 'Поменяю'),
-    )
-
-    rubric = models.ForeignKey(
-        'Rubric',
-        null=True,
-        on_delete=models.PROTECT,
-        verbose_name='Рубрика',
-    )
-
-    title = models.CharField(
-        max_length=50,
-        verbose_name="Товар",
-        validators=[validators.MinLengthValidator(get_min_length)],
-        error_messages={'min_length': 'Слишком мало символов'},
-    )
-
-    kind = models.CharField(
-        max_length=1,
-        choices=KINDS,
-        default='s',
-    )
-
-    content = BBCodeTextField(
-        null=True,
-        blank=True,
-        verbose_name="Описание",
-    )
-
-    price = models.FloatField(
-        null=True,
-        blank=True,
-        verbose_name="Цена",
-        # validators=[validate_even, MinMaxValidator(2, 5)]
-    )
-
-    published = models.DateTimeField(
-        auto_now_add=True,
-        db_index=True,
-        verbose_name="Опубликовано",
-    )
+    KINDS = (('b', 'Куплю'), ('s', 'Продам'), ('c', 'Поменяю'))
+    rubric = models.ForeignKey('Rubric', null=True, on_delete=models.PROTECT, verbose_name='Рубрика',)
+    title = models.CharField(max_length=50, verbose_name="Товар", validators=[validators.MinLengthValidator(get_min_length)], error_messages={'min_length': 'Слишком мало символов'})
+    kind = models.CharField(max_length=1, choices=KINDS, default='s')
+    content = BBCodeTextField(null=True, blank=True, verbose_name="Описание")
+    price = models.FloatField(null=True, blank=True, verbose_name="Цена")  # validators=[validate_even, MinMaxValidator(2, 5)]
+    published = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Опубликовано")
+    archive = models.FileField(upload_to=get_timestamp_path, blank=True)
 
     objects = models.Manager()
     by_price = BbManager()
@@ -178,49 +130,20 @@ class Bb(models.Model):
 
 class Human(models.Model):
 
-    floors = [
-        ('m', 'man'),
-        ('w', 'woman'),
-    ]
-
-    name = models.CharField(
-        max_length=20,
-        verbose_name='Имя',
-        blank=False,
-    )
-
-    floor = models.CharField(
-        max_length=1,
-        choices=floors,
-        default='m',
-    )
-
-    years = models.PositiveSmallIntegerField(
-        verbose_name='Лет',
-    )
+    floors = [('m', 'man'), ('w', 'woman')]
+    name = models.CharField(max_length=20, verbose_name='Имя', blank=False)
+    floor = models.CharField(max_length=1, choices=floors, default='m')
+    years = models.PositiveSmallIntegerField(verbose_name='Лет')
 
 
 class Child(models.Model):
-    name = models.CharField(
-        max_length=20,
-        verbose_name='Имя',
-        blank=False,
-    )
-
-    years = models.PositiveSmallIntegerField(
-        verbose_name='Лет',
-    )
+    name = models.CharField(max_length=20, verbose_name='Имя', blank=False)
+    years = models.PositiveSmallIntegerField(verbose_name='Лет')
 
 
 class IceCream(models.Model):
-    taste = models.CharField(
-        max_length=20,
-        verbose_name='Вкус',
-    )
+    taste = models.CharField(max_length=20, verbose_name='Вкус')
 
 
 class IceCreamMarket(models.Model):
-    name = models.CharField(
-        max_length=20,
-        verbose_name='Название',
-    )
+    name = models.CharField(max_length=20, verbose_name='Название')

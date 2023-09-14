@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from testapp.models import SMS
+from testapp.models import SMS, Img
 
 
 class SMSAdmin(admin.ModelAdmin):
@@ -9,3 +9,4 @@ class SMSAdmin(admin.ModelAdmin):
 
 
 admin.site.register(SMS, SMSAdmin)
+admin.site.register(Img)
