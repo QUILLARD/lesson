@@ -19,7 +19,6 @@ environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -31,7 +30,6 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -46,6 +44,8 @@ INSTALLED_APPS = [
     "debug_toolbar",
     'captcha',
     'precise_bbcode',
+    'django_cleanup',
+    'easy_thumbnails',
 
     'bboard.apps.BboardConfig',
     'testapp.apps.TestappConfig',
@@ -91,29 +91,28 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'firstsite.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#         # 'ATOMIC_REQUESTS': False,
-#         # 'AUTOCOMMIT': True,
-#     }
-# }
-
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": env('DATABASE_NAME'),
-        "USER": env('DATABASE_USER'),
-        "PASSWORD": env('DATABASE_PASS')
-        # "HOST": "127.0.0.1",
-        # "PORT": "5432",
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+        # 'ATOMIC_REQUESTS': False,
+        # 'AUTOCOMMIT': True,
     }
 }
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql_psycopg2",
+#         "NAME": env('DATABASE_NAME'),
+#         "USER": env('DATABASE_USER'),
+#         "PASSWORD": env('DATABASE_PASS')
+#         # "HOST": "127.0.0.1",
+#         # "PORT": "5432",
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -146,7 +145,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
@@ -169,3 +167,35 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Настройки капчи
 
 CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.math_challenge'
+
+# Миниатюры
+
+THUMBNAIL_ALIASES = {
+    'bboard.Bb.picture': {
+        'default': {
+            'size': (300, 300),
+            'crop': 'scale',
+        },
+    },
+    'testapp': {
+        'default': {
+            'size': (400, 300),
+            'crop': 'smart',
+            'bw': True,
+        },
+    },
+    '': {
+        'default': {
+            'size': (180, 240),
+            'crop': 'scale',
+        },
+        'big': {
+            'size': (480, 640),
+            'crop': '10,10',
+        },
+    },
+}
+
+THUMBNAIL_DEFAULT_OPTIONS = {'quality': 90, 'subsampling': 1, }
+
+THUMBNAIL_BASEDIR = 'thumbs'

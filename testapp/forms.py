@@ -11,7 +11,7 @@ class SMSCreateForm(forms.ModelForm):
 
 
 class ImgForm(forms.ModelForm):
-    img = forms.ImageField(label='Изображение', validators=[FileExtensionValidator(allowed_extensions=('pdf', 'jpg', 'png'))],
+    img = forms.ImageField(label='Изображение', validators=[FileExtensionValidator(allowed_extensions=('pdf', 'jpg', 'png', 'jpeg'))],
                            error_messages={'invalid_extension': 'Данный формат не поддерживается!'})
 
     desc = forms.CharField(label='Описание', widget=forms.widgets.Textarea())

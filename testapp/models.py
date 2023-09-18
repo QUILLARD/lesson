@@ -3,6 +3,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelatio
 from django.contrib.contenttypes.models import ContentType
 from django.core.validators import FileExtensionValidator
 from django.db import models
+from django_cleanup import cleanup
 
 from bboard.models import Rubric, get_timestamp_path
 
@@ -99,8 +100,9 @@ class RevRubric(Rubric):
         ordering = ['-name']
 
 
+@cleanup.select
 class Img(models.Model):
-    img = models.ImageField(upload_to=get_timestamp_path, verbose_name='Изображение', validators=[FileExtensionValidator(allowed_extensions=['pdf', 'jpg', 'png'])])
+    img = models.ImageField(upload_to=get_timestamp_path, verbose_name='Изображение', validators=[FileExtensionValidator(allowed_extensions=['pdf', 'jpg', 'png', 'jpeg'])])
     desc = models.TextField(verbose_name='Описание')
 
     class Meta:

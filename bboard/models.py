@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.core import validators
 from django.core.exceptions import ValidationError
 from django.db import models
+from django_cleanup import cleanup
 from precise_bbcode.fields import BBCodeTextField
 
 
@@ -100,6 +101,7 @@ class Rubric(models.Model):
         ordering = ['name']
 
 
+@cleanup.select
 class Bb(models.Model):
     KINDS = (('b', 'Куплю'), ('s', 'Продам'), ('c', 'Поменяю'))
     rubric = models.ForeignKey('Rubric', null=True, on_delete=models.PROTECT, verbose_name='Рубрика',)
@@ -108,7 +110,8 @@ class Bb(models.Model):
     content = BBCodeTextField(null=True, blank=True, verbose_name="Описание")
     price = models.FloatField(null=True, blank=True, verbose_name="Цена")  # validators=[validate_even, MinMaxValidator(2, 5)]
     published = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Опубликовано")
-    archive = models.FileField(upload_to=get_timestamp_path, blank=True)
+    picture = models.ImageField(upload_to=get_timestamp_path, blank=True, verbose_name='Изображение')
+    # archive = models.FileField(upload_to=get_timestamp_path, blank=True)
 
     objects = models.Manager()
     by_price = BbManager()
