@@ -130,6 +130,10 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+    {
+        'NAME': 'firstsite.validators.NoForbiddenCharsValidator',
+        'OPTIONS': {'forbidden_chars': (' ', ',', '.', ':', ';')}
+    },
 ]
 
 DEFAULT_CHARSET = 'utf-8'
