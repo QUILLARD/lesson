@@ -11,5 +11,14 @@
     {{ form.as_p }}
     <button type="submit">Искать</button>
 </form>
+{% for gp in all_groups %}
+    {{ gp.name.user_set }}
+{% endfor %}
+{{ all_groups.user_set }}
+<hr>
+{% for t in test %}
+ {{ t }} </br>
+{% endfor %}
+
 
 {% endblock content %}

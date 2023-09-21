@@ -66,6 +66,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     "debug_toolbar.middleware.DebugToolbarMiddleware",
+    # 'bboard.middleware.my_middleware',
+    # 'bboard.middlewares.RubricsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'firstsite.urls'
@@ -84,6 +87,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'bboard.context_processors.rubrics',
             ],
         },
     },
