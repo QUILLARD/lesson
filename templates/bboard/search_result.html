@@ -1,0 +1,27 @@
+{% extends 'layout/basic.html' %}
+
+{% load static %}
+
+{% block title %} Результат поиска {% endblock title %}
+
+{% block content %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">Искать</button>
+</form>
+
+    {% for bb in bbs %}
+        <div>
+            <h3>{{ bb.title }}</h3>
+            <p>{{ bb.content }}</p>
+            <p><a href="{{ bb.rubric.get_absolute_url }}">
+                {{ bb.rubric.name }}</a></p>
+            <p>{{ bb.published|date:"d.m.Y H:i:s" }}</p>
+        </div>
+    {% endfor %}
+
+
+{% endblock content %}
