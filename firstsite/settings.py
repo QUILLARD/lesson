@@ -208,3 +208,20 @@ THUMBNAIL_DEFAULT_OPTIONS = {'quality': 90, 'subsampling': 1, }
 
 THUMBNAIL_BASEDIR = 'thumbs'
 
+DOMAIN_NAME = "HTTP://127.0.0.1:8000"
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+# DEFAULT_FROM_EMAIL = "webmaster@localhost"
+# EMAIL_HOST = "localhost"
+# EMAIL_PORT = 25
+# EMAIL_HOST_USER = ""
+# EMAIL_HOST_PASSWORD = ""
+EMAIL_USE_LOCALE = True
+EMAIL_FILE_PATH = "tmp/messages/"
+
+ADMINS = [
+    ('Admin', 'admin@bk.ru'),
+    ('Admin2', 'admin2@bk.ru'),
+    ('Admin3', 'admin3@bk.ru'),
+]
+

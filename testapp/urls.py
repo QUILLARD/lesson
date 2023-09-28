@@ -1,6 +1,6 @@
 from django.urls import path
 
-from testapp.views import AddSms, ReadSms, add, edit, index, get, test_cookie
+from testapp.views import AddSms, ReadSms, add, edit, index, get, test_cookie, test_mail
 
 app_name = 'testapp'
 
@@ -12,4 +12,5 @@ urlpatterns = [
     path('', index, name='index'),
     path('get/<path:filename>/', get, name='get'),
     path('test_cookie/', test_cookie, name='cookie'),
+    path('mail/', test_mail, name='mail'),
 ]
